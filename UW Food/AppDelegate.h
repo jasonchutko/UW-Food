@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TabBarViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    TabBarViewController *_tabBarController;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 
