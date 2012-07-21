@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "MenuManager.h"
+#import "EGOTableViewPullRefresh/EGORefreshTableHeaderView.h"
 
-@interface LocationTableViewController : UITableViewController
+@interface LocationTableViewController : UITableViewController <EGORefreshTableHeaderDelegate> {
+    signed char _reloading;
+    EGORefreshTableHeaderView *_refreshHeaderView;
+}
 
 @property (nonatomic, retain) MenuManager *menuManager;
 
