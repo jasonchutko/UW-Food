@@ -27,6 +27,11 @@
         _watcardNumberField = [[UITextField alloc] init];
         _pinField = [[UITextField alloc] init];
         _keyboardControls.textFields = [NSArray arrayWithObjects:_watcardNumberField, _pinField, nil];
+        
+        _footerView = [[UIView alloc] init];
+        
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
     }
     return self;
 }
@@ -75,22 +80,41 @@
 }
 
 - (void)loginPressed {
-    NSLog(@"Buton pressed");
+    
+    if([[_watcardNumberField text] length] <= 0) {
+        UIAlertView *alertWatCard = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Please enter a WatCard number." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertWatCard show];
+    } else if([[_pinField text] length] <= 0) {
+        UIAlertView *alertPin = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Please enter a pin." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertPin show];
+    } else {
+
+        [_loginButton setEnabled:NO];
+        [_activityIndicator startAnimating];
+        [_keyboardControls.activeTextField resignFirstResponder];
+        
+       // [self performLogin];
+        [self something];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 60;
+    return 80;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
-    UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [loginButton setTitle:@"Login" forState:UIControlStateNormal];
-    [loginButton setFrame:CGRectMake(10, 5, 300, 44)];
-    [loginButton addTarget:self action:@selector(loginPressed) forControlEvents:UIControlEventTouchUpInside];
+    _loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [_loginButton setTitle:@"Login" forState:UIControlStateNormal];
+    [_loginButton setFrame:CGRectMake(10, 5, 300, 44)];
+    [_loginButton addTarget:self action:@selector(loginPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_activityIndicator setCenter:CGPointMake(320/2, 65)];
+    
     
     UIView *containerView = [[UIView alloc] init];
-    [containerView addSubview:loginButton];
+    [containerView addSubview:_loginButton];
+    [containerView addSubview:_activityIndicator];
     return containerView;
 }
 
@@ -166,5 +190,67 @@
     if ([_keyboardControls.textFields containsObject:textField])
         _keyboardControls.activeTextField = textField;
 }
+
+#pragma mark - Networking
+
+- (void) showNetworkingError {
+    UIAlertView *alertNetworking = [[UIAlertView alloc] initWithTitle:@"Error" message:@"A networking error has occurred. Please try again." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alertNetworking show];
+}
+
+- (void) something {
+
+    //init the http engine, supply the web host
+    //and also a dictionary with http headers you want to send
+    MKNetworkEngine* engine = [[MKNetworkEngine alloc]
+                               initWithHostName:@"account.watcard.uwaterloo.ca" customHeaderFields:nil];
+    
+    //request parameters
+    //these would be your GET or POST variables
+    NSMutableDictionary* params = [NSMutableDictionary
+                                   dictionaryWithObjectsAndKeys: _watcardNumberField.text,@"acnt_1",
+                                    _pinField.text,@"acnt_2",
+                                    @"ON",@"FINDATAREP",
+                                    @"STATUS", @"STATUS", nil];
+    
+    //create operation with the host relative path, the params
+    //also method (GET,POST,HEAD,etc) and whether you want SSL or not
+    MKNetworkOperation* op = [engine
+                              operationWithPath:@"watgopher661.asp" params: params
+                              httpMethod:@"POST" ssl:YES];
+    
+    //set completion and error blocks
+    [op onCompletion:^(MKNetworkOperation *completedOperation) {
+       // NSLog(@"response: %@", [op responseString]);
+        
+        [self parseLogin:[op responseString]];
+        
+    } onError:^(NSError *error) {
+        [self showNetworkingError];
+    }];
+    
+    //add to the http queue and the request is sent
+    [engine enqueueOperation: op];
+}
+
+- (void) parseLogin:(NSString*)responseString {
+    [_activityIndicator stopAnimating];
+    [_loginButton setEnabled:YES];
+    
+    if([responseString rangeOfString:@"Financial Status Report"].location != NSNotFound) {
+        [_watcardNumberField becomeFirstResponder];
+        //[self loadTransactions];
+        [_watcardNumberField setText:@""];
+        [_pinField setText:@""];
+      //  [self pushView];
+        
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Incorrect WatCard number or pin." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alert show];
+    }
+
+}
+
+
 
 @end

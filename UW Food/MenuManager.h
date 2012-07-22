@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "DayMenu.h"
 #import "MenuItem.h"
+#import "Utilities/TBXML/TBXML.h"
 
-@interface MenuManager : NSObject
+@interface MenuManager : NSObject {
+    TBXML *_xmlParser;
+}
 
 @property (nonatomic, retain) NSMutableArray *dayArray;
 

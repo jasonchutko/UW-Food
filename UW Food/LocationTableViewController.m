@@ -7,6 +7,7 @@
 //
 
 #import "LocationTableViewController.h"
+#import "MenuItemTableViewCell.h"
 
 @interface LocationTableViewController ()
 
@@ -49,6 +50,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
 - (void)reloadTableViewDataSource{
@@ -56,7 +58,8 @@
 	//  should be calling your tableviews data source model to reload
 	//  put here just for demo
 	_reloading = YES;
-    
+    _menuManager = nil;
+    _menuManager = [[MenuManager alloc] init];
 }
 
 - (void)doneLoadingTableViewData{
@@ -64,7 +67,7 @@
 	//  model should call this when its done loading
 	_reloading = NO;
 	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
-    
+    [self.tableView reloadData];
 }
 
 
@@ -118,14 +121,14 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    int numberOfRowsinSection = 0;
-    
-    if([[_menuManager getMenuAtIndex:section].dinnerMenu count] > 0) {
-        numberOfRowsinSection += [[_menuManager getMenuAtIndex:section].dinnerMenu count] + 1;
-    }
+    int numberOfRowsinSection = 2;
     
     if([[_menuManager getMenuAtIndex:section].lunchMenu count] > 0) {
-        numberOfRowsinSection += [[_menuManager getMenuAtIndex:section].lunchMenu count] + 1;
+        numberOfRowsinSection += [[_menuManager getMenuAtIndex:section].lunchMenu count];
+    }
+    
+    if([[_menuManager getMenuAtIndex:section].dinnerMenu count] > 0) {
+        numberOfRowsinSection += [[_menuManager getMenuAtIndex:section].dinnerMenu count];
     }
 
     return numberOfRowsinSection;
@@ -140,35 +143,63 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)setupMealCellAtIndexPath:(NSIndexPath*) indexPath{
     static NSString * CellIdentifier = @"MealCell";
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }    
+    }
     
-    // Configure the cell...
+    if (indexPath.row == 0) {
+        cell.textLabel.text = @"Lunch";
+    } else {
+        cell.textLabel.text = @"Dinner";
+    }
+    
+    return cell;
+}
+
+- (MenuItemTableViewCell *)setupMenuItemCellAtIndexPath:(NSIndexPath*) indexPath {
+    
+    static NSString * CellIdentifier = @"MenuItemCell";
+    MenuItemTableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[MenuItemTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     
     int numberOfLunchItems = [[_menuManager getMenuAtIndex:indexPath.section].lunchMenu count];
-    int numberOfDinnerItems = [[_menuManager getMenuAtIndex:indexPath.section].dinnerMenu count];
-
-    if(numberOfLunchItems > 0) {
-        if(indexPath.row == 0) {
-            cell.textLabel.text = @"Lunch";
-        } else if (indexPath.row <= numberOfLunchItems) {
-            cell.textLabel.text = [NSString stringWithFormat:@"   %@", ((MenuItem*)[[_menuManager getMenuAtIndex:indexPath.section].lunchMenu objectAtIndex:indexPath.row - 1]).itemName];
-        }
-    }
-        
-    if(numberOfDinnerItems > 0) {
-        if(indexPath.row == numberOfLunchItems + 1) {
-            cell.textLabel.text = @"Dinner";
-        } else if (indexPath.row > numberOfLunchItems + 1) {
-            cell.textLabel.text = [NSString stringWithFormat:@"   %@", ((MenuItem*)[[_menuManager getMenuAtIndex:indexPath.section].dinnerMenu objectAtIndex:indexPath.row - (2 + numberOfLunchItems)]).itemName];
-        }
-    }
     
+    
+       NSLog(@"Days: %d, Lunch: %d, Dinner: %d, Row: %d", [_menuManager getNumberOfDays], [[_menuManager getMenuAtIndex:0].lunchMenu count], [[_menuManager getMenuAtIndex:0].dinnerMenu count], indexPath.row);
+    
+    
+    if(indexPath.row < numberOfLunchItems + 1) {
+        //lunch cell at indexPath.row - 1
+        
+        cell.menuItem = ((MenuItem*)[[_menuManager getMenuAtIndex:indexPath.section].lunchMenu objectAtIndex:indexPath.row - 1]);
+        
+        } else {
+             
+            //dinner cell at indexPath.row - numberOfLunchItems - 2
+
+        cell.menuItem = ((MenuItem*)[[_menuManager getMenuAtIndex:indexPath.section].dinnerMenu objectAtIndex:indexPath.row - (2 + numberOfLunchItems)]);
+            
+    }
+    return cell;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    int numberOfLunchItems = [[_menuManager getMenuAtIndex:indexPath.section].lunchMenu count];
+    
+    UITableViewCell * cell;
+
+    if(indexPath.row == 0 || indexPath.row == numberOfLunchItems + 1) {
+        cell = [self setupMealCellAtIndexPath:indexPath];
+    } else {
+        cell = [self setupMenuItemCellAtIndexPath:indexPath];
+    }
+
     return cell;
 }
 
@@ -178,6 +209,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // TODO: implement full details page
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

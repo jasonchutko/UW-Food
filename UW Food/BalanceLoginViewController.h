@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "BSKeyboardControls/BSKeyboardControls.h"
+#import "Utilities/MKNetworkKit/MKNetworkKit.h"
 
 
 @interface BalanceLoginViewController : UITableViewController <BSKeyboardControlsDelegate, UITextFieldDelegate> {
     BSKeyboardControls *_keyboardControls;
+    UIActivityIndicatorView *_activityIndicator;
     
     UITextField *_watcardNumberField;
     UITextField *_pinField;
+    
+    UIView *_footerView;
+    UIButton *_loginButton;
 }
 
 @end
