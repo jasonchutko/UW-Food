@@ -17,7 +17,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        _mealTypeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 15, 16, 16)];
+        _mealTypeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 13, 17, 17)];
+        _mealTypeImageView.contentMode = UIViewContentModeScaleAspectFit;
         _mealTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, self.frame.size.width - 75, self.frame.size.height - 20)];
         [_mealTitleLabel setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_mealTitleLabel];

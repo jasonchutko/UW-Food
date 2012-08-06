@@ -11,6 +11,8 @@
 		9665E52F15BA6AB5009A87B9 /* DayMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 9665E52E15BA6AB5009A87B9 /* DayMenu.m */; };
 		9665E53315BA6B3E009A87B9 /* MenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9665E53215BA6B3E009A87B9 /* MenuManager.m */; };
 		9665E53615BA7A1A009A87B9 /* BalanceLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9665E53515BA7A1A009A87B9 /* BalanceLoginViewController.m */; };
+		967D280515BE4B2B00944CB8 /* TransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D280415BE4B2B00944CB8 /* TransactionManager.m */; };
+		967D280915BE4B3D00944CB8 /* Transaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 967D280815BE4B3D00944CB8 /* Transaction.m */; };
 		968482F415BB1FDD0001E257 /* BSKeyboardControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 968482F215BB1FDD0001E257 /* BSKeyboardControls.m */; };
 		9684830F15BB52A80001E257 /* blackArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9684830715BB52A80001E257 /* blackArrow.png */; };
 		9684831015BB52A80001E257 /* blackArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9684830815BB52A80001E257 /* blackArrow@2x.png */; };
@@ -45,6 +47,9 @@
 		96AE701815BBC245000A53EE /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE700C15BBC245000A53EE /* MKNetworkEngine.m */; };
 		96AE701915BBC245000A53EE /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE700F15BBC245000A53EE /* MKNetworkOperation.m */; };
 		96AE701A15BBC245000A53EE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE701215BBC245000A53EE /* Reachability.m */; };
+		96AE701D15BBCD26000A53EE /* BalanceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE701C15BBCD26000A53EE /* BalanceDetailViewController.m */; };
+		96D2989015D0378F00E27FE8 /* Cacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2988F15D0378F00E27FE8 /* Cacher.m */; };
+		96D2989515D0771600E27FE8 /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2989415D0771600E27FE8 /* SMXMLDocument.m */; };
 		96E4344815BB576F00ECF435 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968B326115BA57C100EFA32C /* CoreGraphics.framework */; };
 		96E4344915BB578000ECF435 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9684832715BB53D70001E257 /* QuartzCore.framework */; };
 		96E4344C15BB57F400ECF435 /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E4344B15BB57F400ECF435 /* LocationTableViewController.m */; };
@@ -54,8 +59,6 @@
 		96E4345815BB6EA400ECF435 /* vegan.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345415BB6EA400ECF435 /* vegan.png */; };
 		96E4345915BB6EA400ECF435 /* vegetarian.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345515BB6EA400ECF435 /* vegetarian.png */; };
 		96E4345B15BB71AD00ECF435 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345A15BB71AD00ECF435 /* default.png */; };
-		96E4346115BB99D700ECF435 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345E15BB99D700ECF435 /* license.txt */; };
-		96E4346215BB99D700ECF435 /* TBXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E4346015BB99D700ECF435 /* TBXML.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +70,10 @@
 		9665E53215BA6B3E009A87B9 /* MenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuManager.m; sourceTree = "<group>"; };
 		9665E53415BA7A1A009A87B9 /* BalanceLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BalanceLoginViewController.h; sourceTree = "<group>"; };
 		9665E53515BA7A1A009A87B9 /* BalanceLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BalanceLoginViewController.m; sourceTree = "<group>"; };
+		967D280315BE4B2B00944CB8 /* TransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionManager.h; sourceTree = "<group>"; };
+		967D280415BE4B2B00944CB8 /* TransactionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionManager.m; sourceTree = "<group>"; };
+		967D280715BE4B3D00944CB8 /* Transaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Transaction.h; sourceTree = "<group>"; };
+		967D280815BE4B3D00944CB8 /* Transaction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Transaction.m; sourceTree = "<group>"; };
 		968482F115BB1FDD0001E257 /* BSKeyboardControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSKeyboardControls.h; sourceTree = "<group>"; };
 		968482F215BB1FDD0001E257 /* BSKeyboardControls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSKeyboardControls.m; sourceTree = "<group>"; };
 		9684830715BB52A80001E257 /* blackArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackArrow.png; sourceTree = "<group>"; };
@@ -120,6 +127,12 @@
 		96AE700F15BBC245000A53EE /* MKNetworkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKNetworkOperation.m; sourceTree = "<group>"; };
 		96AE701115BBC245000A53EE /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		96AE701215BBC245000A53EE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		96AE701B15BBCD26000A53EE /* BalanceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BalanceDetailViewController.h; sourceTree = "<group>"; };
+		96AE701C15BBCD26000A53EE /* BalanceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BalanceDetailViewController.m; sourceTree = "<group>"; };
+		96D2988E15D0378F00E27FE8 /* Cacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cacher.h; sourceTree = "<group>"; };
+		96D2988F15D0378F00E27FE8 /* Cacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cacher.m; sourceTree = "<group>"; };
+		96D2989315D0771600E27FE8 /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
+		96D2989415D0771600E27FE8 /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXMLDocument.m; sourceTree = "<group>"; };
 		96E4344A15BB57F400ECF435 /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewController.h; sourceTree = "<group>"; };
 		96E4344B15BB57F400ECF435 /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewController.m; sourceTree = "<group>"; };
 		96E4344E15BB5BFA00ECF435 /* MenuItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemTableViewCell.h; sourceTree = "<group>"; };
@@ -129,9 +142,6 @@
 		96E4345415BB6EA400ECF435 /* vegan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vegan.png; sourceTree = "<group>"; };
 		96E4345515BB6EA400ECF435 /* vegetarian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vegetarian.png; sourceTree = "<group>"; };
 		96E4345A15BB71AD00ECF435 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
-		96E4345E15BB99D700ECF435 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
-		96E4345F15BB99D700ECF435 /* TBXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBXML.h; sourceTree = "<group>"; };
-		96E4346015BB99D700ECF435 /* TBXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBXML.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +181,8 @@
 				969DEF4F15BA5D5B00616638 /* BalanceViewController.m */,
 				9665E53415BA7A1A009A87B9 /* BalanceLoginViewController.h */,
 				9665E53515BA7A1A009A87B9 /* BalanceLoginViewController.m */,
+				96AE701B15BBCD26000A53EE /* BalanceDetailViewController.h */,
+				96AE701C15BBCD26000A53EE /* BalanceDetailViewController.m */,
 				96E4344A15BB57F400ECF435 /* LocationTableViewController.h */,
 				96E4344B15BB57F400ECF435 /* LocationTableViewController.m */,
 				9684832315BB52FE0001E257 /* EGOTableViewPullRefresh */,
@@ -186,6 +198,8 @@
 				9665E52B15BA6A1F009A87B9 /* MenuItem.m */,
 				9665E52D15BA6AB5009A87B9 /* DayMenu.h */,
 				9665E52E15BA6AB5009A87B9 /* DayMenu.m */,
+				967D280715BE4B3D00944CB8 /* Transaction.h */,
+				967D280815BE4B3D00944CB8 /* Transaction.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -195,6 +209,8 @@
 			children = (
 				9665E53115BA6B3E009A87B9 /* MenuManager.h */,
 				9665E53215BA6B3E009A87B9 /* MenuManager.m */,
+				967D280315BE4B2B00944CB8 /* TransactionManager.h */,
+				967D280415BE4B2B00944CB8 /* TransactionManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -343,6 +359,15 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
+		96D2989215D0771600E27FE8 /* SMXMLDocument */ = {
+			isa = PBXGroup;
+			children = (
+				96D2989315D0771600E27FE8 /* SMXMLDocument.h */,
+				96D2989415D0771600E27FE8 /* SMXMLDocument.m */,
+			);
+			path = SMXMLDocument;
+			sourceTree = "<group>";
+		};
 		96E4344D15BB5BCA00ECF435 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,20 +392,12 @@
 		96E4345C15BB99D700ECF435 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				96D2989215D0771600E27FE8 /* SMXMLDocument */,
 				96AE6FFF15BBC245000A53EE /* MKNetworkKit */,
-				96E4345D15BB99D700ECF435 /* TBXML */,
+				96D2988E15D0378F00E27FE8 /* Cacher.h */,
+				96D2988F15D0378F00E27FE8 /* Cacher.m */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		96E4345D15BB99D700ECF435 /* TBXML */ = {
-			isa = PBXGroup;
-			children = (
-				96E4345E15BB99D700ECF435 /* license.txt */,
-				96E4345F15BB99D700ECF435 /* TBXML.h */,
-				96E4346015BB99D700ECF435 /* TBXML.m */,
-			);
-			path = TBXML;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,7 +471,6 @@
 				96E4345815BB6EA400ECF435 /* vegan.png in Resources */,
 				96E4345915BB6EA400ECF435 /* vegetarian.png in Resources */,
 				96E4345B15BB71AD00ECF435 /* default.png in Resources */,
-				96E4346115BB99D700ECF435 /* license.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,7 +493,6 @@
 				9684832615BB52FE0001E257 /* EGORefreshTableHeaderView.m in Sources */,
 				96E4344C15BB57F400ECF435 /* LocationTableViewController.m in Sources */,
 				96E4345015BB5BFA00ECF435 /* MenuItemTableViewCell.m in Sources */,
-				96E4346215BB99D700ECF435 /* TBXML.m in Sources */,
 				96AE701315BBC245000A53EE /* NSData+Base64.m in Sources */,
 				96AE701415BBC245000A53EE /* NSDate+RFC1123.m in Sources */,
 				96AE701515BBC245000A53EE /* NSDictionary+RequestEncoding.m in Sources */,
@@ -486,6 +501,11 @@
 				96AE701815BBC245000A53EE /* MKNetworkEngine.m in Sources */,
 				96AE701915BBC245000A53EE /* MKNetworkOperation.m in Sources */,
 				96AE701A15BBC245000A53EE /* Reachability.m in Sources */,
+				96AE701D15BBCD26000A53EE /* BalanceDetailViewController.m in Sources */,
+				967D280515BE4B2B00944CB8 /* TransactionManager.m in Sources */,
+				967D280915BE4B3D00944CB8 /* Transaction.m in Sources */,
+				96D2989015D0378F00E27FE8 /* Cacher.m in Sources */,
+				96D2989515D0771600E27FE8 /* SMXMLDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -42,7 +42,14 @@
     
 	//  update the last update date
 	[_refreshHeaderView refreshLastUpdatedDate];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSignificantTimeChange:) name:UIApplicationSignificantTimeChangeNotification object:nil];    
 }
+
+- (void)onSignificantTimeChange:(NSNotification *)notification {
+    // remove the outdated entries
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -58,8 +65,7 @@
 	//  should be calling your tableviews data source model to reload
 	//  put here just for demo
 	_reloading = YES;
-    _menuManager = nil;
-    _menuManager = [[MenuManager alloc] init];
+    [_menuManager refresh];
 }
 
 - (void)doneLoadingTableViewData{
@@ -169,10 +175,6 @@
     
     int numberOfLunchItems = [[_menuManager getMenuAtIndex:indexPath.section].lunchMenu count];
     
-    
-       NSLog(@"Days: %d, Lunch: %d, Dinner: %d, Row: %d", [_menuManager getNumberOfDays], [[_menuManager getMenuAtIndex:0].lunchMenu count], [[_menuManager getMenuAtIndex:0].dinnerMenu count], indexPath.row);
-    
-    
     if(indexPath.row < numberOfLunchItems + 1) {
         //lunch cell at indexPath.row - 1
         
@@ -210,6 +212,12 @@
 {
     // TODO: implement full details page
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Dealloc
+
+-(void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

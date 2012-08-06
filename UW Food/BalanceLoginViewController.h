@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BSKeyboardControls/BSKeyboardControls.h"
 #import "Utilities/MKNetworkKit/MKNetworkKit.h"
-
+#import "BalanceDetailViewController.h"
+#import "TransactionManager.h"
 
 @interface BalanceLoginViewController : UITableViewController <BSKeyboardControlsDelegate, UITextFieldDelegate> {
     BSKeyboardControls *_keyboardControls;
@@ -20,6 +21,8 @@
     
     UIView *_footerView;
     UIButton *_loginButton;
+    
+    NSString *_responseString;
 }
 
 @end

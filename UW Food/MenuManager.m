@@ -16,7 +16,6 @@
     self = [super init];
     if (self) {
         _dayArray = [NSMutableArray array];
-        _xmlParser = [[TBXML alloc] init];
         [self initDummyData];
         //[self refresh];
     }
@@ -33,6 +32,11 @@
 }
 
 - (void) refresh {
+    
+    // change this to proper networking block, on success clear old array
+    
+    [_dayArray removeAllObjects];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSData* data = [NSData dataWithContentsOfURL:
                         [NSURL URLWithString: @"http://csclub.uwaterloo.ca/~jrchutko/scrape.xml"]];
@@ -43,45 +47,48 @@
 
 - (void) fetchedData:(NSData*)data {
     NSError *error;
+	SMXMLDocument *document = [SMXMLDocument documentWithData:data error:&error];
     
-    _xmlParser = [TBXML newTBXMLWithXMLData:data error:&error];
-        
+    // check for errors
     if (error) {
-        NSLog(@"%@ %@", [error localizedDescription], [error userInfo]);
-    } else {
-        NSLog(@"%@", [TBXML elementName:_xmlParser.rootXMLElement]);
+        NSLog(@"Error while parsing the document: %@", error);
+        return;
     }
     
-    [self traverseElement:_xmlParser.rootXMLElement];
-}
-
-- (void) traverseElement:(TBXMLElement *)element {
-    do {
-        // Display the name of the element
-        NSLog(@"%@",[TBXML elementName:element]);
+	for (SMXMLElement *date in [document.root children]) {
         
-        // Obtain first attribute from element
-        TBXMLAttribute * attribute = element->firstAttribute;
+        DayMenu *dayMenu = [[DayMenu alloc] init];
         
-        // if attribute is valid
-        while (attribute) {
-            // Display name and value of attribute to the log window
-            NSLog(@"%@->%@ = %@",  [TBXML elementName:element],
-                  [TBXML attributeName:attribute],
-                  [TBXML attributeValue:attribute]);
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd"];
+        dayMenu.date = [df dateFromString: [date valueWithPath:@"day"]];
+        
+        for(SMXMLElement *meal in [date childrenNamed:@"meal"]) {
             
-            // Obtain the next attribute
-            attribute = attribute->next;
+            NSMutableArray *menuItems = [NSMutableArray array];            
+            
+            for(SMXMLElement *menuItem in [[meal childNamed:@"items"] childrenNamed:@"item"]) {
+                MenuItem *item = [[MenuItem alloc] init];
+                
+                item.mealType = [[menuItem attributeNamed:@"type"] intValue];
+                item.itemName = [menuItem value];
+                
+                NSLog(@"Value: %d, %@", item.mealType, item.itemName);
+                
+                [menuItems addObject:item];
+            }
+            
+            if([[meal valueWithPath:@"type"] isEqualToString:@"lunch"]) {
+                dayMenu.lunchMenu = menuItems;
+                
+            } else if ([[meal valueWithPath:@"type"] isEqualToString:@"dinner"]) {
+                dayMenu.dinnerMenu = menuItems;
+            } else {}
+            
         }
-        
-        // if the element has child elements, process them
-        if (element->firstChild)
-            [self traverseElement:element->firstChild];
-        
-        // Obtain next sibling element
-    } while ((element = element->nextSibling));  
+        [_dayArray addObject:dayMenu];
+	}
 }
-
 
 
 - (void)initDummyData {

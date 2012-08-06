@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "DayMenu.h"
 #import "MenuItem.h"
-#import "Utilities/TBXML/TBXML.h"
+#import "Utilities/SMXMLDocument/SMXMLDocument.h"
 
 @interface MenuManager : NSObject {
-    TBXML *_xmlParser;
 }
 
 @property (nonatomic, retain) NSMutableArray *dayArray;
@@ -22,5 +21,6 @@
 
 // TODO: remove this:
 - (void)initDummyData;
+- (void) refresh;
 
 @end

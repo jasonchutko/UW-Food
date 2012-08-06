@@ -93,8 +93,7 @@
         [_activityIndicator startAnimating];
         [_keyboardControls.activeTextField resignFirstResponder];
         
-       // [self performLogin];
-        [self something];
+        [self performLoginRequest];
     }
 }
 
@@ -195,10 +194,12 @@
 
 - (void) showNetworkingError {
     UIAlertView *alertNetworking = [[UIAlertView alloc] initWithTitle:@"Error" message:@"A networking error has occurred. Please try again." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [_activityIndicator stopAnimating];
+    [_loginButton setEnabled:YES];
     [alertNetworking show];
 }
 
-- (void) something {
+- (void) performLoginRequest {
 
     //init the http engine, supply the web host
     //and also a dictionary with http headers you want to send
@@ -222,8 +223,8 @@
     //set completion and error blocks
     [op onCompletion:^(MKNetworkOperation *completedOperation) {
        // NSLog(@"response: %@", [op responseString]);
-        
-        [self parseLogin:[op responseString]];
+        _responseString = [op responseString];
+        [self parseLogin:_responseString];
         
     } onError:^(NSError *error) {
         [self showNetworkingError];
@@ -233,24 +234,39 @@
     [engine enqueueOperation: op];
 }
 
+- (void) pushDetailViewController {
+    BalanceDetailViewController *tableViewController = [[BalanceDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    
+    TransactionManager *transactionManager = [[TransactionManager alloc] init];
+    transactionManager.watcardNumber = _watcardNumberField.text;
+    transactionManager.pinNumber = _pinField.text;
+    transactionManager.responseString = _responseString;
+    [transactionManager loadBalance];
+    [transactionManager loadRecentTransactions];
+    tableViewController.transactionManager = transactionManager;
+    
+    [UIView  beginAnimations: @"ShowDetailView"context: nil];
+    [UIView setAnimationDuration:0.75];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:NO];
+    [self.navigationController pushViewController: tableViewController animated:NO];
+    [UIView commitAnimations];
+}
+
+
 - (void) parseLogin:(NSString*)responseString {
     [_activityIndicator stopAnimating];
     [_loginButton setEnabled:YES];
     
     if([responseString rangeOfString:@"Financial Status Report"].location != NSNotFound) {
         [_watcardNumberField becomeFirstResponder];
-        //[self loadTransactions];
         [_watcardNumberField setText:@""];
         [_pinField setText:@""];
-      //  [self pushView];
-        
+        [self pushDetailViewController];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Incorrect WatCard number or pin." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
+        [self parentViewController];
     }
-
 }
-
-
 
 @end

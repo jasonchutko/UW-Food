@@ -10,7 +10,7 @@
 #import "MenuManager.h"
 #import "EGOTableViewPullRefresh/EGORefreshTableHeaderView.h"
 
-@interface LocationTableViewController : UITableViewController <EGORefreshTableHeaderDelegate> {
+@interface LocationTableViewController : UITableViewController <EGORefreshTableHeaderDelegate>{
     signed char _reloading;
     EGORefreshTableHeaderView *_refreshHeaderView;
 }
