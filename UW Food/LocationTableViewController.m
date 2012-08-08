@@ -9,6 +9,8 @@
 #import "LocationTableViewController.h"
 #import "MenuItemTableViewCell.h"
 
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 @interface LocationTableViewController ()
 
 @end
@@ -23,9 +25,16 @@
     if (self) {
         // Custom initialization
         _menuManager = [[MenuManager alloc] init];
+        _menuManager.delegate = self;
     }
     return self;
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSignificantTimeChange:) name:UIApplicationSignificantTimeChangeNotification object:nil];
+}
+
 
 - (void)viewDidLoad
 {
@@ -43,11 +52,12 @@
 	//  update the last update date
 	[_refreshHeaderView refreshLastUpdatedDate];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSignificantTimeChange:) name:UIApplicationSignificantTimeChangeNotification object:nil];    
 }
 
 - (void)onSignificantTimeChange:(NSNotification *)notification {
     // remove the outdated entries
+    [_menuManager cleanseData];
+    [self.tableView reloadData];
 }
 
 
@@ -81,7 +91,8 @@
 #pragma mark UIScrollViewDelegate Methods
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
+   // NSLog(@"%@", NSStringFromCGRect(self.view.frame));
+
 	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
     
 }
@@ -92,6 +103,10 @@
     
 }
 
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
 
 #pragma mark -
 #pragma mark EGORefreshTableHeaderDelegate Methods
@@ -99,7 +114,6 @@
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     
 	[self reloadTableViewDataSource];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
     
 }
 
@@ -111,7 +125,7 @@
 
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
     
-	return [NSDate date]; // should return date data source was last changed
+	return [_menuManager getLastRefreshed]; // should return date data source was last changed
     
 }
 
@@ -121,11 +135,17 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [_menuManager getNumberOfDays];
+    return MAX(1,[_menuManager getNumberOfDays]);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    
+    if([_menuManager getNumberOfDays] == 0) {
+        return 1;
+    }
+    
+    
     // Return the number of rows in the section.
     int numberOfRowsinSection = 2;
     
@@ -140,13 +160,52 @@
     return numberOfRowsinSection;
 }
 
+-(NSDate *)dateWithOutTime:(NSDate *)datDate {
+    NSDateComponents* comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:datDate];
+    return [[NSCalendar currentCalendar] dateFromComponents:comps];
+}
+
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 0) {
+    
+    if([_menuManager getNumberOfDays] == 0) {
+        return @"Error";
+    }
+    
+    
+    NSDate *today = [self dateWithOutTime:[NSDate date]];
+    NSDate *tomorrow = [self dateWithOutTime:[today dateByAddingTimeInterval:60*60*24]];
+    NSDate *sectionDate = [self dateWithOutTime:[[_menuManager getMenuAtIndex:section] date]];
+    
+    
+    if([sectionDate compare:today] == NSOrderedSame) {
         return @"Today";
-    } else {
+    }
+    
+    if([sectionDate compare:tomorrow] == NSOrderedSame) {
         return @"Tomorrow";
     }
+    
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    return [formatter stringFromDate:[[_menuManager getMenuAtIndex:section] date]];
+}
+
+- (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if(section == [_menuManager getNumberOfDays] - 1) {
+        NSDate *date = [_menuManager getLastRefreshed];
+        
+		
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		[formatter setAMSymbol:@"AM"];
+		[formatter setPMSymbol:@"PM"];
+		[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"];
+		return [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
+    }
+    return nil;
 }
 
 - (UITableViewCell *)setupMealCellAtIndexPath:(NSIndexPath*) indexPath{
@@ -187,19 +246,33 @@
         cell.menuItem = ((MenuItem*)[[_menuManager getMenuAtIndex:indexPath.section].dinnerMenu objectAtIndex:indexPath.row - (2 + numberOfLunchItems)]);
             
     }
+    
     return cell;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    int numberOfLunchItems = [[_menuManager getMenuAtIndex:indexPath.section].lunchMenu count];
     
     UITableViewCell * cell;
-
-    if(indexPath.row == 0 || indexPath.row == numberOfLunchItems + 1) {
-        cell = [self setupMealCellAtIndexPath:indexPath];
+    
+    if([_menuManager getNumberOfDays] == 0) {
+        
+        static NSString * CellIdentifier = @"ErrorCell";
+        cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        
+        cell.textLabel.text = @"Sorry, there is no data available.";
     } else {
-        cell = [self setupMenuItemCellAtIndexPath:indexPath];
+        
+        int numberOfLunchItems = [[_menuManager getMenuAtIndex:indexPath.section].lunchMenu count];
+
+        if(indexPath.row == 0 || indexPath.row == numberOfLunchItems + 1) {
+            cell = [self setupMealCellAtIndexPath:indexPath];
+        } else {
+            cell = [self setupMenuItemCellAtIndexPath:indexPath];
+        }
     }
 
     return cell;
@@ -212,6 +285,12 @@
 {
     // TODO: implement full details page
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Menu manager delegate
+
+- (void) dataReloaded {
+    [self doneLoadingTableViewData];
 }
 
 #pragma mark - Dealloc

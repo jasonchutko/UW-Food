@@ -11,7 +11,7 @@
 #import "Utilities/MKNetworkKit/MKNetworkKit.h"
 #import "TransactionManager.h"
 
-@interface BalanceDetailViewController : UITableViewController <EGORefreshTableHeaderDelegate>{
+@interface BalanceDetailViewController : UITableViewController <EGORefreshTableHeaderDelegate, TransactionManagerDelegate>{
     signed char _reloading;
     EGORefreshTableHeaderView *_refreshHeaderView;
 }

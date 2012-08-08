@@ -8,6 +8,8 @@
 
 #import "BalanceLoginViewController.h"
 
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 @interface BalanceLoginViewController ()
 
 @end
@@ -105,10 +107,10 @@
     
     _loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [_loginButton setTitle:@"Login" forState:UIControlStateNormal];
-    [_loginButton setFrame:CGRectMake(10, 5, 300, 44)];
+    [_loginButton setFrame:CGRectMake((self.view.frame.size.width-300)/2, 5, 300, 44)];
     [_loginButton addTarget:self action:@selector(loginPressed) forControlEvents:UIControlEventTouchUpInside];
     
-    [_activityIndicator setCenter:CGPointMake(320/2, 65)];
+    [_activityIndicator setCenter:CGPointMake(self.view.frame.size.width/2, 65)];
     
     
     UIView *containerView = [[UIView alloc] init];
@@ -118,7 +120,13 @@
 }
 
 - (void)setTextFieldStyle:(UITextField *)textField {
-    [textField setFrame:CGRectMake(200, 10, 100, 30)];
+    
+    if(IS_IPAD) {
+        [textField setFrame:CGRectMake(self.view.frame.size.width-150, 10, 100, 30)];
+    } else {
+        [textField setFrame:CGRectMake(200, 10, 100, 30)];
+    }
+    
     textField.inputAccessoryView = _keyboardControls;
     textField.adjustsFontSizeToFitWidth = NO;
     textField.textColor = [UIColor blackColor];
@@ -171,6 +179,10 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - BSKeyboardControls delegate
@@ -238,9 +250,17 @@
     BalanceDetailViewController *tableViewController = [[BalanceDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
     TransactionManager *transactionManager = [[TransactionManager alloc] init];
+    
+    transactionManager.delegate = tableViewController;
+    
     transactionManager.watcardNumber = _watcardNumberField.text;
+
     transactionManager.pinNumber = _pinField.text;
     transactionManager.responseString = _responseString;
+    
+    [_watcardNumberField setText:@""];
+    [_pinField setText:@""];
+    
     [transactionManager loadBalance];
     [transactionManager loadRecentTransactions];
     tableViewController.transactionManager = transactionManager;
@@ -259,8 +279,6 @@
     
     if([responseString rangeOfString:@"Financial Status Report"].location != NSNotFound) {
         [_watcardNumberField becomeFirstResponder];
-        [_watcardNumberField setText:@""];
-        [_pinField setText:@""];
         [self pushDetailViewController];
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Incorrect WatCard number or pin." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];

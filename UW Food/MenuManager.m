@@ -11,13 +11,12 @@
 @implementation MenuManager
 
 @synthesize dayArray = _dayArray;
+@synthesize delegate = _delegate;
 
 - (id) init {
     self = [super init];
     if (self) {
         _dayArray = [NSMutableArray array];
-        [self initDummyData];
-        //[self refresh];
     }
     
     return self;
@@ -27,22 +26,68 @@
     return [_dayArray count];
 }
 
+- (NSDate*)getLastRefreshed {
+    return _lastRefreshed;
+}
+
 - (DayMenu*) getMenuAtIndex:(int)index {
     return (DayMenu*)[_dayArray objectAtIndex:index];
 }
 
+-(NSDate *)dateWithOutTime:(NSDate *)datDate {
+    NSDateComponents* comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:datDate];
+    return [[NSCalendar currentCalendar] dateFromComponents:comps];
+}
+
+
+- (void)cleanseData {
+    NSDate* timeNow = [NSDate date];
+    
+    NSMutableArray *itemsToDelete = [NSMutableArray array];
+    
+    for(DayMenu *day in _dayArray) {
+        if([[self dateWithOutTime:[day date]] compare:[self dateWithOutTime:timeNow]] == NSOrderedAscending) {
+            [itemsToDelete addObject:day];
+        }
+    }
+    
+    [_dayArray removeObjectsInArray:itemsToDelete];
+}
+
+- (void) showNetworkingError {
+    NSLog(@"Network error");
+}
+
 - (void) refresh {
     
-    // change this to proper networking block, on success clear old array
+    //init the http engine, supply the web host
+    //and also a dictionary with http headers you want to send
+    MKNetworkEngine* engine = [[MKNetworkEngine alloc]
+                               initWithHostName:@"csclub.uwaterloo.ca/~jrchutko" customHeaderFields:nil];
     
-    [_dayArray removeAllObjects];
+    //create operation with the host relative path, the params
+    //also method (GET,POST,HEAD,etc) and whether you want SSL or not
+    MKNetworkOperation* op = [engine
+                              operationWithPath:@"scrape.xml" params:nil
+                              httpMethod:@"GET" ssl:NO];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSData* data = [NSData dataWithContentsOfURL:
-                        [NSURL URLWithString: @"http://csclub.uwaterloo.ca/~jrchutko/scrape.xml"]];
-        [self performSelectorOnMainThread:@selector(fetchedData:)
-                               withObject:data waitUntilDone:YES];
-    });
+    //set completion and error blocks
+    [op onCompletion:^(MKNetworkOperation *completedOperation) {
+        
+        NSLog(@"Downloaded successfully");
+
+        // clear the previous array
+        [_dayArray removeAllObjects];
+        
+        // load the new array
+        [self fetchedData:[op responseData]];
+        
+    } onError:^(NSError *error) {
+        [self showNetworkingError];
+    }];
+    
+    //add to the http queue and the request is sent
+    [engine enqueueOperation: op];
 }
 
 - (void) fetchedData:(NSData*)data {
@@ -73,7 +118,7 @@
                 item.mealType = [[menuItem attributeNamed:@"type"] intValue];
                 item.itemName = [menuItem value];
                 
-                NSLog(@"Value: %d, %@", item.mealType, item.itemName);
+                //NSLog(@"Value: %d, %@", item.mealType, item.itemName);
                 
                 [menuItems addObject:item];
             }
@@ -88,6 +133,15 @@
         }
         [_dayArray addObject:dayMenu];
 	}
+    [self cleanseData];
+    _lastRefreshed = [NSDate date];
+    [self updateTableView];
+}
+
+- (void)updateTableView {
+    if (_delegate) {
+        [_delegate dataReloaded];
+    }
 }
 
 

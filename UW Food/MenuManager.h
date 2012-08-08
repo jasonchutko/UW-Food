@@ -10,17 +10,31 @@
 #import "DayMenu.h"
 #import "MenuItem.h"
 #import "Utilities/SMXMLDocument/SMXMLDocument.h"
+#import "Utilities/MKNetworkKit/MKNetworkKit.h"
+
+
+@protocol MenuManagerDelegate <NSObject>
+
+- (void)dataReloaded;
+
+@end
 
 @interface MenuManager : NSObject {
+    NSDate *_lastRefreshed;
 }
 
 @property (nonatomic, retain) NSMutableArray *dayArray;
+@property (nonatomic, unsafe_unretained) id<MenuManagerDelegate> delegate;
+
 
 - (int) getNumberOfDays;
+- (NSDate*)getLastRefreshed;
 - (DayMenu*) getMenuAtIndex:(int)index;
+- (void)refresh;
+- (void)cleanseData;
 
 // TODO: remove this:
 - (void)initDummyData;
-- (void) refresh;
+
 
 @end

@@ -8,6 +8,8 @@
 
 #import "MenuItemTableViewCell.h"
 
+#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+
 @implementation MenuItemTableViewCell
 
 @synthesize menuItem = _menuItem;
@@ -17,9 +19,20 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        _mealTypeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 13, 17, 17)];
+    
+        CGRect imageFrame;
+        
+        if(IS_IPAD) {
+            imageFrame = CGRectMake(60, 14, 17, 17);
+            self.frame = CGRectMake(0, 0, 708, 44);
+        } else  {
+            imageFrame = CGRectMake(20, 14, 17, 17);
+        }
+                
+        
+        _mealTypeImageView = [[UIImageView alloc] initWithFrame:imageFrame];
         _mealTypeImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _mealTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, self.frame.size.width - 75, self.frame.size.height - 20)];
+        _mealTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(imageFrame.origin.x + 25, 10, self.frame.size.width - 75, self.frame.size.height - 20)];
         [_mealTitleLabel setBackgroundColor:[UIColor clearColor]];
         [self addSubview:_mealTitleLabel];
         [self addSubview:_mealTypeImageView];

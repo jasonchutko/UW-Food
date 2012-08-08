@@ -14,6 +14,8 @@
 @synthesize pinNumber = _pinNumber;
 @synthesize responseString = _responseString;
 
+@synthesize delegate = _delegate;
+
 - (id) init {
     self = [super init];
     if(self) {
@@ -60,6 +62,8 @@
         
         index++;
     }
+    
+    [self updateTableView];
 }
 
 - (void) loadBalance {
@@ -146,6 +150,17 @@
 
 - (NSString *) getFlexBalance {
     return _flexBalance;
+}
+- (Transaction*) getTransactionAtIndex:(int)index {
+    return [_transactionArray objectAtIndex:index];
+}
+
+#pragma mark - Transaction Manager Delegate
+
+- (void)updateTableView {
+    if (_delegate) {
+        [_delegate dataReloaded];
+    }
 }
 
 @end

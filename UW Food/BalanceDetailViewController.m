@@ -57,7 +57,7 @@
 	//  should be calling your tableviews data source model to reload
 	//  put here just for demo
 	_reloading = YES;
-    [self.tableView reloadData];
+    [_transactionManager loadRecentTransactions];
 }
 
 - (void)doneLoadingTableViewData{
@@ -91,7 +91,7 @@
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     
 	[self reloadTableViewDataSource];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
     
 }
 
@@ -184,7 +184,9 @@
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
             
-//            Transaction *current = [_transactionArray objectAtIndex:indexPath.row];
+            Transaction *current = [_transactionManager getTransactionAtIndex:indexPath.row];
+            
+            cell.textLabel.text = current.locationString;
 //            
 //            [[cell locationText] setText:current.locationString];
 //            [[cell dateText] setText:current.dateString];
@@ -215,6 +217,10 @@
     [alertNetworking show];
 }
 
+#pragma mark - Transaction Manager Delegate
 
+- (void)dataReloaded {
+    [self.tableView reloadData];
+}
 
 @end
