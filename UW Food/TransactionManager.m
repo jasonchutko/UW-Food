@@ -38,8 +38,6 @@
         
         Transaction *transaction = [[Transaction alloc] init];
         
-       
-        
         startIndex = index + @"oneweb_financial_history_td_date\">".length;
         endIndex = [response rangeOfString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [response length] - index)].location;
         
@@ -73,7 +71,7 @@
         
         index++;
     }
-    
+    _lastRefreshed = [NSDate date];
     [self updateTableView];
 }
 
@@ -177,6 +175,10 @@
     return [_transactionArray objectAtIndex:index];
 }
 
+- (NSDate*)getLastRefreshed {
+    return _lastRefreshed;
+}
+
 - (void)deleteAllData {
     _watcardNumber = nil;
     _pinNumber = nil;
@@ -186,11 +188,18 @@
     [_transactionArray removeAllObjects];
 }
 
+
 #pragma mark - Transaction Manager Delegate
 
 - (void)updateTableView {
     if (_delegate) {
         [_delegate dataReloaded];
+    }
+}
+
+- (void)updateFailed {
+    if(_delegate) {
+        [_delegate updateFailed];
     }
 }
 

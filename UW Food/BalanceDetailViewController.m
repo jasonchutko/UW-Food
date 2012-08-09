@@ -60,6 +60,20 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (void)flashScreen {
+    UIView *whiteView = [[UIView alloc] initWithFrame:self.view.frame];
+    [whiteView setBackgroundColor:[UIColor whiteColor]];
+    [whiteView setAlpha:0.3f];
+    [self.view addSubview:whiteView];
+    [UIView animateWithDuration:0.5f animations:^{
+        [whiteView setAlpha:0.0f];
+    } completion:^(BOOL finished) {
+        if(finished) {
+            [whiteView removeFromSuperview];
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
@@ -114,13 +128,26 @@
 
 - (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
     
-	return [NSDate date]; // should return date data source was last changed
+	return [_transactionManager getLastRefreshed]; // should return date data source was last changed
     
 }
 
 
-
 #pragma mark - Table view data source
+
+- (NSString*)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    if(section == 1) {
+        NSDate *date = [_transactionManager getLastRefreshed];
+        
+		
+		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+		[formatter setAMSymbol:@"AM"];
+		[formatter setPMSymbol:@"PM"];
+		[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"];
+		return [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
+    }
+    return nil;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -225,6 +252,11 @@
 
 - (void)dataReloaded {
     [self.tableView reloadData];
+    [self flashScreen];
+}
+
+- (void)updateFailed {
+    [self showNetworkingError];
 }
 
 @end

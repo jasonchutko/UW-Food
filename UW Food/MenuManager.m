@@ -80,9 +80,6 @@
     [op onCompletion:^(MKNetworkOperation *completedOperation) {
         
         NSLog(@"Downloaded successfully");
-
-        // clear the previous array
-        [_dayArray removeAllObjects];
         
         // load the new array
         [self fetchedData:[op responseData]];
@@ -104,6 +101,9 @@
     if (error) {
         NSLog(@"Error while parsing the document: %@", error);
         return;
+    } else {
+        // clear the previous array
+        [_dayArray removeAllObjects];
     }
     
     SMXMLElement *dates = [document.root childNamed:@"dates"];

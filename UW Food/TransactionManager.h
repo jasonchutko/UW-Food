@@ -13,6 +13,7 @@
 @protocol TransactionManagerDelegate <NSObject>
 
 - (void)dataReloaded;
+- (void)updateFailed;
 
 @end
 
@@ -20,6 +21,7 @@
     NSMutableArray *_transactionArray;
     NSString *_mealBalance;
     NSString *_flexBalance;
+    NSDate *_lastRefreshed;
 }
 
 @property NSString *watcardNumber;
@@ -35,5 +37,6 @@
 - (void) loadBalance;
 - (Transaction*) getTransactionAtIndex:(int)index;
 - (void)deleteAllData;
+- (NSDate*)getLastRefreshed;
 
 @end
