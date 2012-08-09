@@ -10,6 +10,7 @@
 #import "EGOTableViewPullRefresh/EGORefreshTableHeaderView.h"
 #import "Utilities/MKNetworkKit/MKNetworkKit.h"
 #import "TransactionManager.h"
+#import "TransactionCell.h"
 
 @interface BalanceDetailViewController : UITableViewController <EGORefreshTableHeaderDelegate, TransactionManagerDelegate>{
     signed char _reloading;

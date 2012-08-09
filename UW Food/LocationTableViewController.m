@@ -7,9 +7,8 @@
 //
 
 #import "LocationTableViewController.h"
-#import "MenuItemTableViewCell.h"
-
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#import "MenuItemCell.h"
+#import "Utilities/Utilities.h"
 
 @interface LocationTableViewController ()
 
@@ -19,22 +18,16 @@
 
 @synthesize menuManager = _menuManager;
 
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-        _menuManager = [[MenuManager alloc] init];
-        _menuManager.delegate = self;
-    }
-    return self;
+- (void) setupManagerWithLocation:(NSString*)location {
+    _menuManager = [[MenuManager alloc] init];
+    _menuManager.delegate = self;
+    _menuManager.location = location;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSignificantTimeChange:) name:UIApplicationSignificantTimeChangeNotification object:nil];
 }
-
 
 - (void)viewDidLoad
 {
@@ -67,6 +60,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)flashScreen {
+    UIView *whiteView = [[UIView alloc] initWithFrame:self.view.frame];
+    [whiteView setBackgroundColor:[UIColor whiteColor]];
+    [whiteView setAlpha:0.3f];
+    [self.view addSubview:whiteView];
+    [UIView animateWithDuration:0.5f animations:^{
+        [whiteView setAlpha:0.0f];
+    } completion:^(BOOL finished) {
+        if(finished) {
+            [whiteView removeFromSuperview];
+        }
+    }];
+}
+
 #pragma mark -
 #pragma mark Data Source Loading / Reloading Methods
 
@@ -86,6 +93,10 @@
     [self.tableView reloadData];
 }
 
+- (void) showNetworkingError {
+    UIAlertView *alertNetworking = [[UIAlertView alloc] initWithTitle:@"Error" message:@"A networking error has occurred. Please try again." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alertNetworking show];
+}
 
 #pragma mark -
 #pragma mark UIScrollViewDelegate Methods
@@ -224,12 +235,12 @@
     return cell;
 }
 
-- (MenuItemTableViewCell *)setupMenuItemCellAtIndexPath:(NSIndexPath*) indexPath {
+- (MenuItemCell *)setupMenuItemCellAtIndexPath:(NSIndexPath*) indexPath {
     
     static NSString * CellIdentifier = @"MenuItemCell";
-    MenuItemTableViewCell * cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    MenuItemCell * cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[MenuItemTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[MenuItemCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     int numberOfLunchItems = [[_menuManager getMenuAtIndex:indexPath.section].lunchMenu count];
@@ -287,10 +298,18 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+
 #pragma mark - Menu manager delegate
 
 - (void) dataReloaded {
     [self doneLoadingTableViewData];
+    [self flashScreen];
+}
+
+- (void) updateFailed {
+	_reloading = NO;
+	[_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    [self showNetworkingError];
 }
 
 #pragma mark - Dealloc

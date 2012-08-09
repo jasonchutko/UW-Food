@@ -6,11 +6,10 @@
 //  Copyright (c) 2012 Jason Chutko. All rights reserved.
 //
 
-#import "MenuItemTableViewCell.h"
+#import "MenuItemCell.h"
+#import "Utilities/Utilities.h"
 
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-
-@implementation MenuItemTableViewCell
+@implementation MenuItemCell
 
 @synthesize menuItem = _menuItem;
 

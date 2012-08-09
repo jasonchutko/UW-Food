@@ -34,5 +34,6 @@
 - (NSString *) getFlexBalance;
 - (void) loadBalance;
 - (Transaction*) getTransactionAtIndex:(int)index;
+- (void)deleteAllData;
 
 @end

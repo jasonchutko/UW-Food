@@ -29,6 +29,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.hidesBackButton = YES;
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleDone target:self action:@selector(pushRootViewController)];
+    
+    self.navigationItem.rightBarButtonItem = barButton;
 
     if (_refreshHeaderView == nil) {
         
@@ -47,6 +53,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)pushRootViewController {
+    [_transactionManager deleteAllData];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark -
@@ -122,7 +133,7 @@
     if(section == 0) {
         return 2;
     } else {
-        return [_transactionManager numberOfTransactions];
+        return MAX(1,[_transactionManager numberOfTransactions]);
     }
 }
 
@@ -176,21 +187,14 @@
             
         } else {
             static NSString *CellIdentifier = @"TransactionCell";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            TransactionCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
             
             if (cell == nil) {
-//                NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TransactionCell" owner:self options:NULL];
-//                cell = (TransactionCell *) [nib objectAtIndex:0];
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+                cell = [[TransactionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             }
             
             Transaction *current = [_transactionManager getTransactionAtIndex:indexPath.row];
-            
-            cell.textLabel.text = current.locationString;
-//            
-//            [[cell locationText] setText:current.locationString];
-//            [[cell dateText] setText:current.dateString];
-//            [[cell amountText] setText:current.amountString];
+            cell.transaction = current;
             
             return cell;
         }

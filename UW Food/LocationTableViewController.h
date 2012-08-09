@@ -17,4 +17,6 @@
 
 @property (nonatomic, retain) MenuManager *menuManager;
 
+- (void) setupManagerWithLocation:(NSString*)location;
+
 @end

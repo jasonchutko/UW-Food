@@ -7,11 +7,13 @@
 //
 
 #import "MenuManager.h"
+#import "Utilities/Utilities.h"
 
 @implementation MenuManager
 
 @synthesize dayArray = _dayArray;
 @synthesize delegate = _delegate;
+@synthesize location = _location;
 
 - (id) init {
     self = [super init];
@@ -63,12 +65,15 @@
     //init the http engine, supply the web host
     //and also a dictionary with http headers you want to send
     MKNetworkEngine* engine = [[MKNetworkEngine alloc]
-                               initWithHostName:@"csclub.uwaterloo.ca/~jrchutko" customHeaderFields:nil];
+                               initWithHostName:SERVER_ADDRESS customHeaderFields:nil];
+    
+    
+    NSString *fileName = [_location isEqualToString:@"REV"] ? REV_FILE : V1_FILE;
     
     //create operation with the host relative path, the params
     //also method (GET,POST,HEAD,etc) and whether you want SSL or not
     MKNetworkOperation* op = [engine
-                              operationWithPath:@"scrape.xml" params:nil
+                              operationWithPath:fileName params:nil
                               httpMethod:@"GET" ssl:NO];
     
     //set completion and error blocks
@@ -84,6 +89,7 @@
         
     } onError:^(NSError *error) {
         [self showNetworkingError];
+        [self updateFailed];
     }];
     
     //add to the http queue and the request is sent
@@ -100,26 +106,30 @@
         return;
     }
     
-	for (SMXMLElement *date in [document.root children]) {
+    SMXMLElement *dates = [document.root childNamed:@"dates"];
+    
+	for (SMXMLElement *date in [dates childrenNamed:@"date"]) {
         
         DayMenu *dayMenu = [[DayMenu alloc] init];
         
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd"];
         dayMenu.date = [df dateFromString: [date valueWithPath:@"day"]];
+                
+        SMXMLElement *meals = [date childNamed:@"meals"];
         
-        for(SMXMLElement *meal in [date childrenNamed:@"meal"]) {
+        for(SMXMLElement *meal in [meals childrenNamed:@"meal"]) {
             
-            NSMutableArray *menuItems = [NSMutableArray array];            
+            NSMutableArray *menuItems = [NSMutableArray array];
             
-            for(SMXMLElement *menuItem in [[meal childNamed:@"items"] childrenNamed:@"item"]) {
+            SMXMLElement *items = [meal childNamed:@"items"];
+            
+            for(SMXMLElement *menuItem in [items childrenNamed:@"item"]) {
                 MenuItem *item = [[MenuItem alloc] init];
                 
                 item.mealType = [[menuItem attributeNamed:@"type"] intValue];
                 item.itemName = [menuItem value];
-                
-                //NSLog(@"Value: %d, %@", item.mealType, item.itemName);
-                
+                                
                 [menuItems addObject:item];
             }
             
@@ -144,28 +154,9 @@
     }
 }
 
-
-- (void)initDummyData {
-    for(int x = 0; x < 1; x++) {
-        
-        DayMenu *menu = [[DayMenu alloc] init];
-        
-        for(int x = 0; x < arc4random() % 3; x++) {
-            MenuItem *lunchItem = [[MenuItem alloc] init];
-            lunchItem.itemName = [NSString stringWithFormat:@"Lunch Item %d", arc4random() % 4];
-            lunchItem.mealType = arc4random() % 5;
-
-            [menu.lunchMenu addObject:lunchItem];
-
-        }
-        for(int x = 0; x < arc4random() % 3; x++) {
-            MenuItem *dinnerItem = [[MenuItem alloc] init];
-            dinnerItem.itemName = [NSString stringWithFormat:@"Dinner Item %d", arc4random() % 4];
-            dinnerItem.mealType = arc4random() % 5;
-            [menu.dinnerMenu addObject:dinnerItem];
-        }
-        
-        [_dayArray addObject:menu];
+- (void)updateFailed {
+    if(_delegate) {
+        [_delegate updateFailed];
     }
 }
 

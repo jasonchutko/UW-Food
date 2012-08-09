@@ -16,6 +16,7 @@
 @protocol MenuManagerDelegate <NSObject>
 
 - (void)dataReloaded;
+- (void)updateFailed;
 
 @end
 
@@ -25,16 +26,12 @@
 
 @property (nonatomic, retain) NSMutableArray *dayArray;
 @property (nonatomic, unsafe_unretained) id<MenuManagerDelegate> delegate;
-
+@property (nonatomic, retain) NSString *location;
 
 - (int) getNumberOfDays;
 - (NSDate*)getLastRefreshed;
 - (DayMenu*) getMenuAtIndex:(int)index;
 - (void)refresh;
 - (void)cleanseData;
-
-// TODO: remove this:
-- (void)initDummyData;
-
 
 @end

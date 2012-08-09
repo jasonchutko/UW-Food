@@ -32,6 +32,7 @@
 - (void)initRev {
     _revTableViewController = [[LocationTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     _revTableViewController.navigationItem.title = @"Ron Eydt Village";
+    [_revTableViewController setupManagerWithLocation:@"REV"];
     _revNavigationController = [[UINavigationController alloc] init];
     _revNavigationController.title = @"REV";
     _revNavigationController.tabBarItem.image = [UIImage imageNamed:@"group"];
@@ -43,6 +44,7 @@
 - (void)initV1 {
     _v1TableViewController = [[LocationTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
     _v1TableViewController.navigationItem.title = @"Village 1";
+     [_v1TableViewController setupManagerWithLocation:@"V1"];
     _v1NavigationController = [[UINavigationController alloc] init];
     _v1NavigationController.title = @"V1";
     _v1NavigationController.tabBarItem.image = [UIImage imageNamed:@"single"];

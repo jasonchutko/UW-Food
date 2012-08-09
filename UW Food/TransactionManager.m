@@ -38,10 +38,21 @@
         
         Transaction *transaction = [[Transaction alloc] init];
         
+       
+        
         startIndex = index + @"oneweb_financial_history_td_date\">".length;
         endIndex = [response rangeOfString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [response length] - index)].location;
         
-        [transaction setDateString:[response substringWithRange:NSMakeRange(startIndex, endIndex-startIndex)]];
+         NSString *dateString = [response substringWithRange:NSMakeRange(startIndex, endIndex-startIndex)];
+        
+        index = [response rangeOfString:@"oneweb_financial_history_td_time" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [response length] - index)].location;
+        
+        startIndex = index + @"oneweb_financial_history_td_time\">".length;
+        endIndex = [response rangeOfString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [response length] - index)].location;
+        
+         NSString *timeString = [response substringWithRange:NSMakeRange(startIndex, endIndex-startIndex)];
+        
+        [transaction setDateString:[NSString stringWithFormat:@"%@ at %@", dateString, timeString]];
         
         index = [response rangeOfString:@"oneweb_financial_history_td_amount" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [response length] - index)].location;
         startIndex = index + @"oneweb_financial_history_td_amount\" align='right'>".length;
@@ -76,15 +87,26 @@
     endIndex = [_responseString rangeOfString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
     
     _mealBalance = [_responseString substringWithRange:NSMakeRange(index + 1, endIndex - index - 1)];
+
     
-    index = [_responseString rangeOfString:@"FLEXIBLE"].location;
-    index = [_responseString rangeOfString:@"amount" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
-    index = [_responseString rangeOfString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
+    float flexBalance = 0;
     
-    endIndex = 0;
-    endIndex = [_responseString rangeOfString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
+    while((index = [_responseString rangeOfString:@"FLEXIBLE" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location) != NSNotFound) {
+        
+        index = [_responseString rangeOfString:@"FLEXIBLE" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
+        index = [_responseString rangeOfString:@"amount" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
+        index = [_responseString rangeOfString:@">" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
+        
+        endIndex = [_responseString rangeOfString:@"<" options:NSCaseInsensitiveSearch range:NSMakeRange(index, [_responseString length] - index)].location;
+        
+        NSString *flexString = [[_responseString substringWithRange:NSMakeRange(index + 1, endIndex - index - 1)] stringByReplacingOccurrencesOfString:@" " withString:@""];
+        
+        index = endIndex;
+        
+        flexBalance += [flexString floatValue];
+    }
     
-    _flexBalance = [_responseString substringWithRange:NSMakeRange(index + 1, endIndex - index - 1)];
+    _flexBalance = [NSString stringWithFormat:@"%.02f", flexBalance];
 }
 
 
@@ -153,6 +175,15 @@
 }
 - (Transaction*) getTransactionAtIndex:(int)index {
     return [_transactionArray objectAtIndex:index];
+}
+
+- (void)deleteAllData {
+    _watcardNumber = nil;
+    _pinNumber = nil;
+    _responseString = nil;
+    _mealBalance = nil;
+    _flexBalance = nil;
+    [_transactionArray removeAllObjects];
 }
 
 #pragma mark - Transaction Manager Delegate

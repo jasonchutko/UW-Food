@@ -7,8 +7,7 @@
 //
 
 #import "BalanceLoginViewController.h"
-
-#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#import "Utilities/Utilities.h"
 
 @interface BalanceLoginViewController ()
 
@@ -249,6 +248,8 @@
 - (void) pushDetailViewController {
     BalanceDetailViewController *tableViewController = [[BalanceDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
     
+    tableViewController.navigationItem.title = @"Balance";
+    
     TransactionManager *transactionManager = [[TransactionManager alloc] init];
     
     transactionManager.delegate = tableViewController;
@@ -260,6 +261,7 @@
     
     [_watcardNumberField setText:@""];
     [_pinField setText:@""];
+    _responseString = nil;
     
     [transactionManager loadBalance];
     [transactionManager loadRecentTransactions];

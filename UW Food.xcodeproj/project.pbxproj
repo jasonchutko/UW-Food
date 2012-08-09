@@ -50,10 +50,12 @@
 		96AE701D15BBCD26000A53EE /* BalanceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE701C15BBCD26000A53EE /* BalanceDetailViewController.m */; };
 		96D2989015D0378F00E27FE8 /* Cacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2988F15D0378F00E27FE8 /* Cacher.m */; };
 		96D2989515D0771600E27FE8 /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2989415D0771600E27FE8 /* SMXMLDocument.m */; };
+		96D842B315D344FB0050DEBB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D842B215D344FB0050DEBB /* Utilities.m */; };
+		96D842BB15D3689A0050DEBB /* TransactionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D842BA15D3689A0050DEBB /* TransactionCell.m */; };
 		96E4344815BB576F00ECF435 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 968B326115BA57C100EFA32C /* CoreGraphics.framework */; };
 		96E4344915BB578000ECF435 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9684832715BB53D70001E257 /* QuartzCore.framework */; };
 		96E4344C15BB57F400ECF435 /* LocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E4344B15BB57F400ECF435 /* LocationTableViewController.m */; };
-		96E4345015BB5BFA00ECF435 /* MenuItemTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E4344F15BB5BFA00ECF435 /* MenuItemTableViewCell.m */; };
+		96E4345015BB5BFA00ECF435 /* MenuItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96E4344F15BB5BFA00ECF435 /* MenuItemCell.m */; };
 		96E4345615BB6EA400ECF435 /* halal.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345215BB6EA400ECF435 /* halal.png */; };
 		96E4345715BB6EA400ECF435 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345315BB6EA400ECF435 /* star.png */; };
 		96E4345815BB6EA400ECF435 /* vegan.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345415BB6EA400ECF435 /* vegan.png */; };
@@ -133,10 +135,14 @@
 		96D2988F15D0378F00E27FE8 /* Cacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cacher.m; sourceTree = "<group>"; };
 		96D2989315D0771600E27FE8 /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
 		96D2989415D0771600E27FE8 /* SMXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMXMLDocument.m; sourceTree = "<group>"; };
+		96D842B115D344FB0050DEBB /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		96D842B215D344FB0050DEBB /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
+		96D842B915D3689A0050DEBB /* TransactionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransactionCell.h; sourceTree = "<group>"; };
+		96D842BA15D3689A0050DEBB /* TransactionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransactionCell.m; sourceTree = "<group>"; };
 		96E4344A15BB57F400ECF435 /* LocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationTableViewController.h; sourceTree = "<group>"; };
 		96E4344B15BB57F400ECF435 /* LocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationTableViewController.m; sourceTree = "<group>"; };
-		96E4344E15BB5BFA00ECF435 /* MenuItemTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemTableViewCell.h; sourceTree = "<group>"; };
-		96E4344F15BB5BFA00ECF435 /* MenuItemTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemTableViewCell.m; sourceTree = "<group>"; };
+		96E4344E15BB5BFA00ECF435 /* MenuItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItemCell.h; sourceTree = "<group>"; };
+		96E4344F15BB5BFA00ECF435 /* MenuItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItemCell.m; sourceTree = "<group>"; };
 		96E4345215BB6EA400ECF435 /* halal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = halal.png; sourceTree = "<group>"; };
 		96E4345315BB6EA400ECF435 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		96E4345415BB6EA400ECF435 /* vegan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vegan.png; sourceTree = "<group>"; };
@@ -371,8 +377,10 @@
 		96E4344D15BB5BCA00ECF435 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				96E4344E15BB5BFA00ECF435 /* MenuItemTableViewCell.h */,
-				96E4344F15BB5BFA00ECF435 /* MenuItemTableViewCell.m */,
+				96E4344E15BB5BFA00ECF435 /* MenuItemCell.h */,
+				96E4344F15BB5BFA00ECF435 /* MenuItemCell.m */,
+				96D842B915D3689A0050DEBB /* TransactionCell.h */,
+				96D842BA15D3689A0050DEBB /* TransactionCell.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -396,6 +404,8 @@
 				96AE6FFF15BBC245000A53EE /* MKNetworkKit */,
 				96D2988E15D0378F00E27FE8 /* Cacher.h */,
 				96D2988F15D0378F00E27FE8 /* Cacher.m */,
+				96D842B115D344FB0050DEBB /* Utilities.h */,
+				96D842B215D344FB0050DEBB /* Utilities.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -492,7 +502,7 @@
 				968482F415BB1FDD0001E257 /* BSKeyboardControls.m in Sources */,
 				9684832615BB52FE0001E257 /* EGORefreshTableHeaderView.m in Sources */,
 				96E4344C15BB57F400ECF435 /* LocationTableViewController.m in Sources */,
-				96E4345015BB5BFA00ECF435 /* MenuItemTableViewCell.m in Sources */,
+				96E4345015BB5BFA00ECF435 /* MenuItemCell.m in Sources */,
 				96AE701315BBC245000A53EE /* NSData+Base64.m in Sources */,
 				96AE701415BBC245000A53EE /* NSDate+RFC1123.m in Sources */,
 				96AE701515BBC245000A53EE /* NSDictionary+RequestEncoding.m in Sources */,
@@ -506,6 +516,8 @@
 				967D280915BE4B3D00944CB8 /* Transaction.m in Sources */,
 				96D2989015D0378F00E27FE8 /* Cacher.m in Sources */,
 				96D2989515D0771600E27FE8 /* SMXMLDocument.m in Sources */,
+				96D842B315D344FB0050DEBB /* Utilities.m in Sources */,
+				96D842BB15D3689A0050DEBB /* TransactionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

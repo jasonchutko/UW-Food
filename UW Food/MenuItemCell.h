@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MenuItem.h"
 
-@interface MenuItemTableViewCell : UITableViewCell {
+@interface MenuItemCell : UITableViewCell {
     UIImageView *_mealTypeImageView;
     UILabel *_mealTitleLabel;
 }
