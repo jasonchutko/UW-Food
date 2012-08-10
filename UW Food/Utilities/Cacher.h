@@ -10,4 +10,7 @@
 
 @interface Cacher : NSObject
 
++ (void)saveData:(NSData*)data withFileName:(NSString*)filename;
++ (NSData*)readFile:(NSString*)filename;
+
 @end

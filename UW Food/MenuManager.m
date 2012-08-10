@@ -8,6 +8,7 @@
 
 #import "MenuManager.h"
 #import "Utilities/Utilities.h"
+#import "Utilities/Cacher.h"
 
 @implementation MenuManager
 
@@ -24,6 +25,62 @@
     return self;
 }
 
+- (void) loadDataIfNeccessary {
+    NSString *fileName = [_location isEqualToString:@"REV"] ? REV_FILE : V1_FILE;
+    
+    //try to load from cache
+    NSData *cachedData = [Cacher readFile:fileName];
+    if(cachedData) {
+        
+        NSDate *expirationDate = [self getExpirationDate:cachedData];
+        
+        if(expirationDate) {
+             if([(NSDate*)[NSDate date] compare:expirationDate] == NSOrderedDescending) {
+                 // update cache
+                 [self refreshAndShowError:NO];
+             } else {
+                 // use cache
+                 [self fetchedData:cachedData];
+             }
+        } else {
+            [self refreshAndShowError:NO];
+        }
+        
+    } else {
+        // change this to not show networking error?
+        [self refreshAndShowError:NO];
+    }
+}
+
+- (NSDate*)getExpirationDate:(NSData*)data {
+    NSError *error;
+	SMXMLDocument *document = [SMXMLDocument documentWithData:data error:&error];
+    
+    // check for errors
+    if (error) {
+        NSLog(@"Error while parsing the document: %@", error);
+        return nil;
+    }
+    
+    SMXMLElement *dates = [document.root childNamed:@"dates"];
+    
+    
+    if([[dates childrenNamed:@"date"] count] <= 0) {
+        return nil;
+    }
+    
+	SMXMLElement *firstDateElement = [[dates childrenNamed:@"date"] objectAtIndex:0];
+    
+    
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"yyyy-MM-dd"];
+    NSDate *firstDate = [df dateFromString: [firstDateElement valueWithPath:@"day"]];
+    
+    return [firstDate dateByAddingTimeInterval:60*60*24*5];
+}
+
+
+
 - (int)getNumberOfDays {
     return [_dayArray count];
 }
@@ -36,19 +93,13 @@
     return (DayMenu*)[_dayArray objectAtIndex:index];
 }
 
--(NSDate *)dateWithOutTime:(NSDate *)datDate {
-    NSDateComponents* comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:datDate];
-    return [[NSCalendar currentCalendar] dateFromComponents:comps];
-}
-
-
 - (void)cleanseData {
     NSDate* timeNow = [NSDate date];
     
     NSMutableArray *itemsToDelete = [NSMutableArray array];
     
     for(DayMenu *day in _dayArray) {
-        if([[self dateWithOutTime:[day date]] compare:[self dateWithOutTime:timeNow]] == NSOrderedAscending) {
+        if([[Utilities dateWithoutTime:[day date]] compare:[Utilities dateWithoutTime:timeNow]] == NSOrderedAscending) {
             [itemsToDelete addObject:day];
         }
     }
@@ -56,11 +107,7 @@
     [_dayArray removeObjectsInArray:itemsToDelete];
 }
 
-- (void) showNetworkingError {
-    NSLog(@"Network error");
-}
-
-- (void) refresh {
+- (void) refreshAndShowError:(BOOL)showError {
     
     //init the http engine, supply the web host
     //and also a dictionary with http headers you want to send
@@ -85,8 +132,9 @@
         [self fetchedData:[op responseData]];
         
     } onError:^(NSError *error) {
-        [self showNetworkingError];
-        [self updateFailed];
+        if(showError) {
+            [self updateFailed];
+        }
     }];
     
     //add to the http queue and the request is sent
@@ -144,6 +192,10 @@
         [_dayArray addObject:dayMenu];
 	}
     [self cleanseData];
+    
+     NSString *fileName = [_location isEqualToString:@"REV"] ? REV_FILE : V1_FILE;
+    
+    [Cacher saveData:data withFileName:fileName];
     _lastRefreshed = [NSDate date];
     [self updateTableView];
 }

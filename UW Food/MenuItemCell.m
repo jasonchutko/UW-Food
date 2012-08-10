@@ -51,7 +51,7 @@
 - (void) setLeftImage {
     switch (_menuItem.mealType) {
         case 0:
-            [_mealTypeImageView setImage:[UIImage imageNamed:@"default"]];
+            [_mealTypeImageView setImage:[UIImage imageNamed:@"circle"]];
             break;
         case 1:
             [_mealTypeImageView setImage:[UIImage imageNamed:@"halal"]];
@@ -66,7 +66,7 @@
             [_mealTypeImageView setImage:[UIImage imageNamed:@"star"]];
             break;
         default:
-            [_mealTypeImageView setImage:[UIImage imageNamed:@"default"]];
+            [_mealTypeImageView setImage:[UIImage imageNamed:@"circle"]];
             break;
     }
 }

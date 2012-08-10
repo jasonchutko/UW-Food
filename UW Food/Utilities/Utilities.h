@@ -16,4 +16,6 @@
 
 @interface Utilities : NSObject
 
++ (NSDate*)dateWithoutTime:(NSDate*)date;
+
 @end

@@ -10,4 +10,24 @@
 
 @implementation Cacher
 
++ (void)saveData:(NSData*)data withFileName:(NSString*)filename {
+    
+    // construct path within our documents directory
+    NSString *applicationDocumentsDir =
+    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *storePath = [applicationDocumentsDir stringByAppendingPathComponent:filename];
+    
+    // write to file atomically (using temp file)
+    [data writeToFile:storePath atomically:TRUE];
+}
+
++ (NSData*)readFile:(NSString*)filename{
+    NSData *data;
+    NSString *applicationDocumentsDir =
+    [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    data = [NSData dataWithContentsOfFile:[applicationDocumentsDir stringByAppendingPathComponent:filename]];
+    
+    return data;
+}
+
 @end

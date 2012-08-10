@@ -22,6 +22,7 @@
     _menuManager = [[MenuManager alloc] init];
     _menuManager.delegate = self;
     _menuManager.location = location;
+    [_menuManager loadDataIfNeccessary];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -48,6 +49,7 @@
 }
 
 - (void)onSignificantTimeChange:(NSNotification *)notification {
+    [_menuManager loadDataIfNeccessary];
     // remove the outdated entries
     [_menuManager cleanseData];
     [self.tableView reloadData];
@@ -82,7 +84,7 @@
 	//  should be calling your tableviews data source model to reload
 	//  put here just for demo
 	_reloading = YES;
-    [_menuManager refresh];
+    [_menuManager refreshAndShowError:YES];
 }
 
 - (void)doneLoadingTableViewData{
@@ -171,12 +173,6 @@
     return numberOfRowsinSection;
 }
 
--(NSDate *)dateWithOutTime:(NSDate *)datDate {
-    NSDateComponents* comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:datDate];
-    return [[NSCalendar currentCalendar] dateFromComponents:comps];
-}
-
-
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if([_menuManager getNumberOfDays] == 0) {
@@ -184,9 +180,9 @@
     }
     
     
-    NSDate *today = [self dateWithOutTime:[NSDate date]];
-    NSDate *tomorrow = [self dateWithOutTime:[today dateByAddingTimeInterval:60*60*24]];
-    NSDate *sectionDate = [self dateWithOutTime:[[_menuManager getMenuAtIndex:section] date]];
+    NSDate *today = [Utilities dateWithoutTime:[NSDate date]];
+    NSDate *tomorrow = [Utilities dateWithoutTime:[today dateByAddingTimeInterval:60*60*24]];
+    NSDate *sectionDate = [Utilities dateWithoutTime:[[_menuManager getMenuAtIndex:section] date]];
     
     
     if([sectionDate compare:today] == NSOrderedSame) {

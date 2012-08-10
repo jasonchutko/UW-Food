@@ -60,7 +60,7 @@
 		96E4345715BB6EA400ECF435 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345315BB6EA400ECF435 /* star.png */; };
 		96E4345815BB6EA400ECF435 /* vegan.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345415BB6EA400ECF435 /* vegan.png */; };
 		96E4345915BB6EA400ECF435 /* vegetarian.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345515BB6EA400ECF435 /* vegetarian.png */; };
-		96E4345B15BB71AD00ECF435 /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345A15BB71AD00ECF435 /* default.png */; };
+		96E4345B15BB71AD00ECF435 /* circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E4345A15BB71AD00ECF435 /* circle.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,7 +147,7 @@
 		96E4345315BB6EA400ECF435 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		96E4345415BB6EA400ECF435 /* vegan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vegan.png; sourceTree = "<group>"; };
 		96E4345515BB6EA400ECF435 /* vegetarian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = vegetarian.png; sourceTree = "<group>"; };
-		96E4345A15BB71AD00ECF435 /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		96E4345A15BB71AD00ECF435 /* circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = circle.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -388,7 +388,7 @@
 		96E4345115BB6EA400ECF435 /* Meal Type Images */ = {
 			isa = PBXGroup;
 			children = (
-				96E4345A15BB71AD00ECF435 /* default.png */,
+				96E4345A15BB71AD00ECF435 /* circle.png */,
 				96E4345215BB6EA400ECF435 /* halal.png */,
 				96E4345315BB6EA400ECF435 /* star.png */,
 				96E4345415BB6EA400ECF435 /* vegan.png */,
@@ -480,7 +480,7 @@
 				96E4345715BB6EA400ECF435 /* star.png in Resources */,
 				96E4345815BB6EA400ECF435 /* vegan.png in Resources */,
 				96E4345915BB6EA400ECF435 /* vegetarian.png in Resources */,
-				96E4345B15BB71AD00ECF435 /* default.png in Resources */,
+				96E4345B15BB71AD00ECF435 /* circle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

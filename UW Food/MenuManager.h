@@ -31,7 +31,8 @@
 - (int) getNumberOfDays;
 - (NSDate*)getLastRefreshed;
 - (DayMenu*) getMenuAtIndex:(int)index;
-- (void)refresh;
+- (void)loadDataIfNeccessary;
+- (void) refreshAndShowError:(BOOL)showError;
 - (void)cleanseData;
 
 @end
