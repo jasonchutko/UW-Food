@@ -35,6 +35,8 @@
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleDone target:self action:@selector(pushRootViewController)];
     
     self.navigationItem.rightBarButtonItem = barButton;
+    
+
 
     if (_refreshHeaderView == nil) {
         
@@ -115,9 +117,7 @@
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
     
-	[self reloadTableViewDataSource];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
-    
+	[self reloadTableViewDataSource];    
 }
 
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
@@ -143,7 +143,7 @@
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		[formatter setAMSymbol:@"AM"];
 		[formatter setPMSymbol:@"PM"];
-		[formatter setDateFormat:@"MM/dd/yyyy hh:mm:a"];
+		[formatter setDateFormat:@"MM/dd/yyyy hh:mm a"];
 		return [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
     }
     return nil;
@@ -192,8 +192,6 @@
     return cell;
 }
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.section == 0) {
@@ -232,13 +230,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Networking
@@ -251,7 +243,7 @@
 #pragma mark - Transaction Manager Delegate
 
 - (void)dataReloaded {
-    [self.tableView reloadData];
+    [self doneLoadingTableViewData];
     [self flashScreen];
 }
 

@@ -56,17 +56,20 @@
 - (void)setupLocationLabel {
     [_locationLabel setFont:[UIFont boldSystemFontOfSize:15.0f]];
     [_locationLabel setBackgroundColor:[UIColor clearColor]];
+    [_locationLabel setHighlightedTextColor:[UIColor whiteColor]];
     [self addSubview:_locationLabel];
 }
 
 - (void)setupDateLabel {
     [_dateLabel setFont:[UIFont systemFontOfSize:14.0f]];
     [_dateLabel setBackgroundColor:[UIColor clearColor]];
+    [_dateLabel setHighlightedTextColor:[UIColor whiteColor]];
     [self addSubview:_dateLabel];
 }
 
 - (void)setupPriceLabel {
     [_priceLabel setBackgroundColor:[UIColor clearColor]];
+    [_priceLabel setHighlightedTextColor:[UIColor whiteColor]];
     [_priceLabel setTextAlignment:UITextAlignmentRight];
     [_priceLabel setFont:[UIFont systemFontOfSize:17.0f]];
     [_priceLabel setMinimumFontSize:10.0f];

@@ -81,7 +81,6 @@
 }
 
 - (void)loginPressed {
-    
     if([[_watcardNumberField text] length] <= 0) {
         UIAlertView *alertWatCard = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Please enter a WatCard number." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertWatCard show];
@@ -104,12 +103,24 @@
 
 - (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
-    _loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _loginButton = [[UIGlossyButton alloc] initWithFrame:CGRectMake((self.view.frame.size.width-300)/2, 5, 300, 44)];
+//    [_loginButton setEnabled:NO];
     [_loginButton setTitle:@"Login" forState:UIControlStateNormal];
-    [_loginButton setFrame:CGRectMake((self.view.frame.size.width-300)/2, 5, 300, 44)];
     [_loginButton addTarget:self action:@selector(loginPressed) forControlEvents:UIControlEventTouchUpInside];
+    _loginButton.disabledColor = [UIColor colorWithRed:70.0f/255.0f green:105.0f/255.0f blue:192.0f/255.0f alpha:0.3f];
+    
+    [_loginButton useWhiteLabel: YES];
+    _loginButton.buttonCornerRadius = 8.0; _loginButton.buttonBorderWidth = 1.0f;
+	[_loginButton setStrokeType: kUIGlossyButtonStrokeTypeBevelUp];
+    _loginButton.tintColor = _loginButton.borderColor = [UIColor colorWithRed:70.0f/255.0f green:105.0f/255.0f blue:192.0f/255.0f alpha:1.0f];
+    
+    [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
+
     
     [_activityIndicator setCenter:CGPointMake(self.view.frame.size.width/2, 65)];
+    
+    
+    
     
     
     UIView *containerView = [[UIView alloc] init];
@@ -238,6 +249,7 @@
         [self parseLogin:_responseString];
         
     } onError:^(NSError *error) {
+        NSLog(@"Error: %@", error);
         [self showNetworkingError];
     }];
     
@@ -285,7 +297,6 @@
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WatCard" message:@"Incorrect WatCard number or pin." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alert show];
-        [self parentViewController];
     }
 }
 

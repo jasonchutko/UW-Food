@@ -37,6 +37,7 @@
     _revNavigationController.title = @"REV";
     _revNavigationController.tabBarItem.image = [UIImage imageNamed:@"group"];
     _revNavigationController.viewControllers = [NSArray arrayWithObject:_revTableViewController];
+    _revNavigationController.navigationBar.tintColor = [UIColor colorWithRed:66.0f/255.0f green:113.0f/255.0f blue:160.0f/255.0f alpha:1.0f];
     
     [_tabBarItems addObject:_revNavigationController];
 }
@@ -49,6 +50,7 @@
     _v1NavigationController.title = @"V1";
     _v1NavigationController.tabBarItem.image = [UIImage imageNamed:@"single"];
     _v1NavigationController.viewControllers = [NSArray arrayWithObject:_v1TableViewController];
+    _v1NavigationController.navigationBar.tintColor = [UIColor colorWithRed:66.0f/255.0f green:113.0f/255.0f blue:160.0f/255.0f alpha:1.0f];
     
     [_tabBarItems addObject:_v1NavigationController];
 }
@@ -59,7 +61,8 @@
     [_balanceNavigationController setTitle:@"Balance"];
     _balanceNavigationController.tabBarItem.image = [UIImage imageNamed:@"piggy-bank"];
     _balanceNavigationController.viewControllers = [NSArray arrayWithObject:_balanceViewController];
-    
+    _balanceNavigationController.navigationBar.tintColor = [UIColor colorWithRed:66.0f/255.0f green:113.0f/255.0f blue:160.0f/255.0f alpha:1.0f];
+
     [_tabBarItems addObject:_balanceNavigationController];
 }
 

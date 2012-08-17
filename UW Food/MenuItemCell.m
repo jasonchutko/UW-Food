@@ -33,19 +33,11 @@
         _mealTypeImageView.contentMode = UIViewContentModeScaleAspectFit;
         _mealTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(imageFrame.origin.x + 25, 10, self.frame.size.width - 75, self.frame.size.height - 20)];
         [_mealTitleLabel setBackgroundColor:[UIColor clearColor]];
+        _mealTitleLabel.highlightedTextColor = [UIColor whiteColor];
         [self addSubview:_mealTitleLabel];
         [self addSubview:_mealTypeImageView];
     }
     return self;
-}
-
-- (void) setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
-    if(highlighted) {
-        _mealTitleLabel.textColor = [UIColor whiteColor];
-    } else {
-        _mealTitleLabel.textColor = [UIColor blackColor];
-    }
 }
 
 - (void) setLeftImage {

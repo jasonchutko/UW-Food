@@ -11,6 +11,7 @@
 #import "Utilities/MKNetworkKit/MKNetworkKit.h"
 #import "BalanceDetailViewController.h"
 #import "TransactionManager.h"
+#import "Utilities/UIGlossyButton/UIGlossyButton.h"
 
 @interface BalanceLoginViewController : UITableViewController <BSKeyboardControlsDelegate, UITextFieldDelegate> {
     BSKeyboardControls *_keyboardControls;
@@ -20,7 +21,7 @@
     UITextField *_pinField;
     
     UIView *_footerView;
-    UIButton *_loginButton;
+    UIGlossyButton *_loginButton;
     
     NSString *_responseString;
 }
