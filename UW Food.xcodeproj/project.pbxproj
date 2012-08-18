@@ -59,6 +59,11 @@
 		96AE701915BBC245000A53EE /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE700F15BBC245000A53EE /* MKNetworkOperation.m */; };
 		96AE701A15BBC245000A53EE /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE701215BBC245000A53EE /* Reachability.m */; };
 		96AE701D15BBCD26000A53EE /* BalanceDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AE701C15BBCD26000A53EE /* BalanceDetailViewController.m */; };
+		96B87EE715DF19F800A5566F /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B87EE615DF19F800A5566F /* icon.png */; };
+		96B87EE915DF1A0900A5566F /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B87EE815DF1A0900A5566F /* icon@2x.png */; };
+		96B87EEB15DF1A1500A5566F /* icon~ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B87EEA15DF1A1500A5566F /* icon~ipad@2x.png */; };
+		96B87EED15DF1A1A00A5566F /* icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B87EEC15DF1A1A00A5566F /* icon~ipad.png */; };
+		96B87EEF15DF379B00A5566F /* icon~appstore.png in Resources */ = {isa = PBXBuildFile; fileRef = 96B87EEE15DF379B00A5566F /* icon~appstore.png */; };
 		96D2989015D0378F00E27FE8 /* Cacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2988F15D0378F00E27FE8 /* Cacher.m */; };
 		96D2989515D0771600E27FE8 /* SMXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D2989415D0771600E27FE8 /* SMXMLDocument.m */; };
 		96D842B315D344FB0050DEBB /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D842B215D344FB0050DEBB /* Utilities.m */; };
@@ -154,6 +159,11 @@
 		96AE701215BBC245000A53EE /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		96AE701B15BBCD26000A53EE /* BalanceDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BalanceDetailViewController.h; sourceTree = "<group>"; };
 		96AE701C15BBCD26000A53EE /* BalanceDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BalanceDetailViewController.m; sourceTree = "<group>"; };
+		96B87EE615DF19F800A5566F /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../../icon.png; sourceTree = "<group>"; };
+		96B87EE815DF1A0900A5566F /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../../../icon@2x.png"; sourceTree = "<group>"; };
+		96B87EEA15DF1A1500A5566F /* icon~ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon~ipad@2x.png"; path = "../../../icon~ipad@2x.png"; sourceTree = "<group>"; };
+		96B87EEC15DF1A1A00A5566F /* icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon~ipad.png"; path = "../../../icon~ipad.png"; sourceTree = "<group>"; };
+		96B87EEE15DF379B00A5566F /* icon~appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon~appstore.png"; sourceTree = "<group>"; };
 		96D2988E15D0378F00E27FE8 /* Cacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cacher.h; sourceTree = "<group>"; };
 		96D2988F15D0378F00E27FE8 /* Cacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cacher.m; sourceTree = "<group>"; };
 		96D2989315D0771600E27FE8 /* SMXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMXMLDocument.h; sourceTree = "<group>"; };
@@ -357,6 +367,11 @@
 			isa = PBXGroup;
 			children = (
 				96A6DF6815DDE42D00936970 /* loginbutton@2x.png */,
+				96B87EEC15DF1A1A00A5566F /* icon~ipad.png */,
+				96B87EEE15DF379B00A5566F /* icon~appstore.png */,
+				96B87EEA15DF1A1500A5566F /* icon~ipad@2x.png */,
+				96B87EE815DF1A0900A5566F /* icon@2x.png */,
+				96B87EE615DF19F800A5566F /* icon.png */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -542,6 +557,11 @@
 				96A6DF7715DDF1A900936970 /* Default@2x.png in Resources */,
 				96A6DF7B15DDF1C200936970 /* Default-Portrait~ipad.png in Resources */,
 				96A6DF7D15DDF1D200936970 /* Default-Portrait@2x~ipad.png in Resources */,
+				96B87EE715DF19F800A5566F /* icon.png in Resources */,
+				96B87EE915DF1A0900A5566F /* icon@2x.png in Resources */,
+				96B87EEB15DF1A1500A5566F /* icon~ipad@2x.png in Resources */,
+				96B87EED15DF1A1A00A5566F /* icon~ipad.png in Resources */,
+				96B87EEF15DF379B00A5566F /* icon~appstore.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

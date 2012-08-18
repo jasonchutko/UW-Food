@@ -195,8 +195,10 @@
     
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    [formatter setTimeStyle:NSDateFormatterNoStyle];
+//    [formatter setDateStyle:NSDateFormatterMediumStyle];
+//    [formatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    [formatter setDateFormat:@"MMMM d, YYYY"];
     
     return [formatter stringFromDate:[[_menuManager getMenuAtIndex:section] date]];
 }
