@@ -195,9 +195,6 @@
     
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//    [formatter setDateStyle:NSDateFormatterMediumStyle];
-//    [formatter setTimeStyle:NSDateFormatterNoStyle];
-    
     [formatter setDateFormat:@"MMMM d, YYYY"];
     
     return [formatter stringFromDate:[[_menuManager getMenuAtIndex:section] date]];
@@ -292,6 +289,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    if([_menuManager getNumberOfDays] > 0 && [[self.tableView cellForRowAtIndexPath:indexPath] isKindOfClass:[MenuItemCell class]]){
+        
+        UIAlertView *fullItem = [[UIAlertView alloc] initWithTitle:@"UW Food" message:((MenuItemCell*)[self.tableView cellForRowAtIndexPath:indexPath]).menuItem.itemName  delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [fullItem show];
+    }
+    
     // TODO: implement full details page
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

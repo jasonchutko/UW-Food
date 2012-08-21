@@ -25,6 +25,7 @@
 //
 
 #import "EGORefreshTableHeaderView.h"
+#import "../Utilities/Utilities.h"
 
 
 #define TEXT_COLOR	 [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0]
@@ -69,7 +70,13 @@
 		_statusLabel=label;
 		
 		CALayer *layer = [CALayer layer];
-		layer.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
+        
+        if(IS_IPAD) {
+            layer.frame = CGRectMake(225.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
+        } else {
+            layer.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
+        }
+        
 		layer.contentsGravity = kCAGravityResizeAspect;
 		layer.contents = (id)[UIImage imageNamed:@"blueArrow.png"].CGImage;
 		
@@ -83,7 +90,13 @@
 		_arrowImage=layer;
 		
 		UIActivityIndicatorView *view = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		view.frame = CGRectMake(25.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
+        
+        if(IS_IPAD) {
+            view.frame = CGRectMake(225.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
+        } else {
+            view.frame = CGRectMake(25.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
+        }
+        
 		[self addSubview:view];
 		_activityView = view;
 		
